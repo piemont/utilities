@@ -1,0 +1,52 @@
+###Setting up EC2 instance for rails app###
+#http://dennissuratna.com/rails-deployment-aws1/#
+
+#Install packages#
+sudo apt-get update
+sudo apt-get install build-essential libopenssl-ruby1.9.1 libssl-dev zlib1g-dev libmysqlclient-dev libpcre3-dev libcurl4-openssl-dev mysql-client-core-5.5 openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison nodejs subversion
+
+#Install rbenv#
+git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.profile
+echo 'eval "$(rbenv init -)"' >> ~/.profile
+
+#Install ruby-build#
+cd ~
+git clone https://github.com/sstephenson/ruby-build.git
+cd ruby-build
+sudo ./install.sh
+
+#Install rbenv-sudo#
+mkdir ~/.rbenv/plugins
+git clone git://github.com/dcarley/rbenv-sudo.git ~/.rbenv/plugins/rbenv-sudo
+
+#Restart shell#
+cd ~
+exec $SHELL -l
+
+#Install ruby and bundler#
+rbenv install 2.2.3
+rbenv global 2.2.3
+gem install bundler
+
+#Add rbenv to PATH#
+export PATH=~/.rbenv/shims:~/.rbenv/bin:"$PATH"
+
+## START FROM HERE TO PULL UPDATES ##
+#Clone app#
+cd ~
+git clone https://github.com/piemont/rails-app.git
+cd ./rails-app
+rbenv rehash
+
+#Install gem bundle using deployment and binstubs tags, see http://bundler.io/deploying.html and https://github.com/sstephenson/rbenv/wiki/Deploying-with-rbenv#
+bundle install --deployment --binstubs
+rbenv rehash
+
+#Start server#
+rbenv sudo passenger start -p80 &
+
+## TO KILL EXISTING PASSENGER SERVER ##
+ps aux | grep passenger
+# Manually kill all passenger procs with sudo kill 12345 #
+sudo rm passenger files in repo
