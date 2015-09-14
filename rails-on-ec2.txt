@@ -32,7 +32,7 @@ gem install bundler
 #Add rbenv to PATH#
 export PATH=~/.rbenv/shims:~/.rbenv/bin:"$PATH"
 
-## START FROM HERE TO PULL UPDATES ##
+## XXX ## 
 #Clone app#
 cd ~
 git clone https://github.com/piemont/rails-app.git
@@ -46,7 +46,16 @@ rbenv rehash
 #Start server#
 rbenv sudo passenger start -p80 &
 
-## TO KILL EXISTING PASSENGER SERVER ##
+## FINISHED!!! ##
+
+## TO PULL CHANGES AND RESTART SERVICE ##
+# SSH into AWS instance #
+# Kill existing passenger server #
 ps aux | grep passenger
 # Manually kill all passenger procs with sudo kill 12345 #
 sudo rm passenger files in repo
+
+# Delete app folder and reclone and build #
+cd ~
+sudo rm -rf rails-app
+go to XXX above and complete 
