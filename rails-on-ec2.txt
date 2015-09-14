@@ -43,6 +43,8 @@ rbenv rehash
 bundle install --deployment --binstubs
 rbenv rehash
 
+#SCP .rbenv-vars file (not in repo) into ~/rails-app/ #
+
 #Start server#
 rbenv sudo passenger start -p80 &
 
@@ -53,7 +55,7 @@ rbenv sudo passenger start -p80 &
 # Kill existing passenger server #
 ps aux | grep passenger
 # Manually kill all passenger procs with sudo kill 12345 #
-sudo rm passenger files in repo
+#NECESSARY??: sudo rm passenger files in repo
 
 # Delete app folder and reclone and build #
 cd ~
